@@ -1,0 +1,24 @@
+# pip fallback (uv 优先: uv sync). 已剔除 Windows 需编译 GTK 的系统库依赖(项目未使用)
+langchain==1.0.3
+langchain-openai==1.0.1
+langgraph==1.0.2
+langgraph-checkpoint==3.0.0
+langgraph-prebuilt==1.0.2
+langgraph-sdk==0.2.9
+langsmith==0.4.39
+fastapi>=0.121,<1
+uvicorn>=0.38,<1
+pydantic>=2.12,<3
+Jinja2>=3.1,<4
+coze-coding-utils>=0.2.8
+coze-workload-identity>=0.1.4,<1
+opencv-python>=4.12,<5
+pandas>=2.2,<3
+Pillow>=10.3,<11
+cozeloop>=0.1.25,<1
+alembic>=1.16,<2
+SQLAlchemy>=2.0,<3
+python-dotenv>=1.2,<2
+psycopg2-binary>=2.9,<3
+boto3>=1.40,<2
+langgraph-checkpoint-postgres>=3.0,<4

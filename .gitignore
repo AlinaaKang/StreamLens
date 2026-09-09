@@ -60,3 +60,4 @@ config/credentials.env
 # Runtime data
 tmp/
 cases/
+.ppt_build/

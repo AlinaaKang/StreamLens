@@ -10,8 +10,8 @@
 | 项 | 配置 |
 |---|---|
 | 运行环境 | Python 3.12 / FastAPI，CPU 即可（分布层纯 CPU 毫秒级） |
-| 语义模型 | qwen-3-5-plus（内置模型服务） |
-| 服务入口 | `python main.py -m http -p 5000`，Web 工作台 `/web` |
+| 模型配置 | Agent 默认 `glm-5-0-260211`；Prompt 语义扫描器为 `qwen-3-5-plus-260215`，以实际兼容网关配置为准 |
+| 服务入口 | `python src/main.py -m http -p 5001`，Web 工作台 `/web` |
 | 测试方法 | 29 个冻结挑战样本数据层回归 + API 端到端断言 + 浏览器自动化（Playwright）UI 级验证 |
 
 ---
@@ -138,7 +138,7 @@
 本轮测试命令：
 
 ```text
-python scripts/expanded_eval.py
+.venv\\Scripts\\python.exe scripts\\expanded_eval.py
 ```
 
 运行环境：Python 3.12、项目虚拟环境、CPU；样本生成种子固定为 20260910，结果可重复。

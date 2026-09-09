@@ -11,7 +11,7 @@
 |---|---|
 | 运行环境 | Python 3.12 / FastAPI，CPU 即可（分布层纯 CPU 毫秒级） |
 | 模型配置 | Agent 默认 `glm-5-0-260211`；Prompt 语义扫描器为 `qwen-3-5-plus-260215`，以实际兼容网关配置为准 |
-| 服务入口 | `python src/main.py -m http -p 5001`，Web 工作台 `/web` |
+| 服务入口 | `python src/main.py -m http -p 5000`，Web 工作台 `/web` |
 | 测试方法 | 29 个冻结挑战样本数据层回归 + API 端到端断言 + 浏览器自动化（Playwright）UI 级验证 |
 
 ---

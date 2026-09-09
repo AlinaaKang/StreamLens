@@ -184,7 +184,7 @@
 ## 7 部署与运行
 
 - 环境：Python 3.12，FastAPI + 单页前端，大模型通过 OpenAI 兼容接口配置；
-- 启动：`python src/main.py -m http -p 5001`，浏览器访问 `/web`；
+- 启动：`python src/main.py -m http -p 5000`，浏览器访问 `/web`；
 - Agent 默认配置为 `glm-5-0-260211`；Prompt 语义扫描代码当前指定 `qwen-3-5-plus-260215`，均以实际兼容网关和凭据为准；
 - Entropy-CPD 与 PCAP 本地检测运行于 CPU。端到端耗时受模型服务、文件大小和网络环境影响，不承诺固定时延。
 

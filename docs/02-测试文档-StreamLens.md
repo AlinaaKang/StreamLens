@@ -142,3 +142,31 @@
 ```
 
 运行环境：Python 3.12、项目虚拟环境、CPU；样本生成种子固定为 20260910，结果可重复。
+
+## 9 三路端到端语义评测（真实模型）
+
+上一节是本地规则与 Entropy-CPD 的独立消融，不能代表完整系统。本节通过已部署的 StreamLens 结构化接口运行 `scripts/semantic_e2e.py`，每条样本都经过规则标记、Entropy-CPD、语义模型和固定融合策略，记录最终风险级别与处置动作。
+
+测试集为 9 条合成样本：4 条攻击、4 条良性、1 条安全研究边界样本。结果如下：
+
+| 指标 | 结果 |
+|---|---:|
+| 总样本 | 9 |
+| 语义通道真实可用 | 9 / 9 |
+| 三路均执行并返回结构化结果 | 9 / 9 |
+| 攻击 TP / FN | 4 / 0 |
+| 良性 FP / TN | 0 / 4 |
+| Precision / Recall / F1 | 1.0000 / 1.0000 / 1.0000 |
+| FPR | 0.0000 |
+
+攻击样本均返回 `semantic_status=real`、`cpd_status=derived` 和最终 `high / block`；良性样本均为 `safe / none / allow`。规则路即使没有命中短语，也会通过返回的 `marker_hits` 字段参与同一分析响应；“命中数为 0”不等于没有执行规则路。
+
+本轮是小规模的真实模型端到端冒烟评测，样本量不足以支撑跨语言、跨攻击族的泛化结论。240 条扩展集仍用于观察本地信号的漏报边界；两组结果必须分开报告，不能合并成一个“系统准确率”。
+
+运行命令（使用线上或本地 StreamLens API）：
+
+```text
+.venv\\Scripts\\python.exe scripts\\semantic_e2e.py --api-url https://<your-streamlens-host> --required --output tmp\\semantic_e2e_report.json
+```
+
+若模型服务不可用，脚本会把样本标记为 `semantic_unavailable`；加 `--required` 时以非零退出，防止误把降级结果当成语义通过。

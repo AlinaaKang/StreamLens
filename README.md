@@ -1,12 +1,33 @@
 # StreamLens 明鉴
 
+<p align="center">
+  <strong>面向 AI 安全的 Prompt 与 PCAP 双轨调查智能体</strong><br>
+  <sub>让检测有证据、让对话有上下文、让处置始终可控</sub>
+</p>
+
+<p align="center">
+  <a href="https://github.com/AlinaaKang/StreamLens"><img src="https://img.shields.io/badge/repository-private-24292f?style=flat-square&logo=github" alt="Private repository"></a>
+  <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.12+">
+  <img src="https://img.shields.io/badge/API-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/transport-REST%20%2B%20SSE-5B5BD6?style=flat-square" alt="REST and SSE">
+  <img src="https://img.shields.io/badge/status-competition%20demo-F59E0B?style=flat-square" alt="Competition demo">
+</p>
+
+<p align="center">
+  <a href="#-项目定位">定位</a> ·
+  <a href="#-能做什么">能力</a> ·
+  <a href="#-快速运行">运行</a> ·
+  <a href="#-测试">测试</a> ·
+  <a href="#-比赛材料">比赛材料</a>
+</p>
+
 面向 AI 安全的 Prompt 与 PCAP 双轨调查智能体。
 
 StreamLens 明鉴把自然语言对话、大模型 Agent、本地安全检测引擎和可审计案件记录放在同一个工作流中。用户可以提交一段 Prompt 或一个抓包文件，智能体会根据当前模式选择检测工具，返回证据、解释、下一步建议，并在需要时生成修复方案、复检结果和调查报告。
 
 > **核心原则**：大模型负责理解、规划和解释；本地引擎负责检测和生成证据；固定策略负责融合与授权边界。模型不能虚构 Packet、检测结果或已经执行的外部处置。
 
-## 项目定位
+## 🧭 项目定位
 
 这里的“Token”指 Prompt/模型输入中的 token 分布异常，不是 API 用量统计，也不是把网络流量误称为 token 流量。项目聚焦两个可以被实际演示和复核的对象：
 
@@ -15,7 +36,7 @@ StreamLens 明鉴把自然语言对话、大模型 Agent、本地安全检测引
 
 项目不把 Entropy-CPD 理论或语义模型宣称为原创。Entropy-CPD 借鉴公开研究思想，StreamLens 的工程贡献是把它与规则、语义、证据归档、风险轨道和反事实复核接成可操作的调查闭环。
 
-## 一条案件流程
+## 🧩 一条案件流程
 
 ```text
 用户提问 / 粘贴 Prompt / 上传 PCAP
@@ -35,16 +56,16 @@ Agent 理解上下文并选择工具
 
 已有案件中的自然语言追问优先复用原始输入、检测结果、证据和历史消息；只有“重新检测”“生成报告”等明确控制意图才创建新动作。
 
-## 能做什么
+## ✨ 能做什么
 
-### 安全对话
+### 💬 安全对话
 
 - 普通问题直接自然语言回答，不因内容看似可疑而自动触发检测；
 - 已有案件中的“为什么”“哪里异常”“结论可靠吗”等追问，读取当前案件证据和历史消息；
 - 只有明确的检测、复检、报告或控制指令才调用对应工具；
 - SSE 流式输出，前端同时展示回答、工具状态、证据和下一步建议。
 
-### Prompt 安全检测
+### 🛡️ Prompt 安全检测
 
 一次分析同时运行三路证据：
 
@@ -54,7 +75,7 @@ Agent 理解上下文并选择工具
 
 三路结果进入固定融合策略：语义危险进入拦截，语义争议或纯统计异常进入人工复核，全部正常才放行。风险轨道会将异常起点映射到 token/字符区间，便于查看原文片段和证据编号。反事实工具会截断异常点前缀重新检测，验证定位是否成立。
 
-### PCAP 调查
+### 🧪 PCAP 调查
 
 - 预检文件格式、大小、哈希和重复提交；
 - 使用 `dpkt` 逐包解析时间、协议、方向、端点和载荷特征；
@@ -64,14 +85,14 @@ Agent 理解上下文并选择工具
 
 PCAP 检测是网络证据分诊，不运行 Prompt 的 Entropy-CPD，也不恢复 Prompt 内容。0day、加密流量解密和完整 APT 渗透链不属于已验证覆盖范围。
 
-### 攻防实验与侦探挑战
+### 🎯 攻防实验与侦探挑战
 
 - Prompt 红队提交对抗 Prompt，真实走检测管线；蓝队对样本判断风险类型和级别；
 - PCAP 实验使用固定或参数化教学流量，Packet 证据与检测阈值真实对应；
 - Token 侦探挑战让用户根据语义结果和 CPD 轨道标记异常起点，并用反事实复检验证；
 - 教学实验与真实案件分离，实验真值不会写入用户调查案件。
 
-## 架构
+## 🏗️ 架构
 
 ```text
 浏览器 Web 工作台
@@ -87,7 +108,7 @@ LangChain Agent（src/agents/agent.py）
 
 Agent 配置文件登记 11 个核心工具：Prompt 五个、PCAP 四个、知识检索和报告生成。挑战、评测和任务恢复等工作区功能作为辅助工具保留。
 
-## 11 个核心工具
+## 🧰 11 个核心工具
 
 | 类别 | 工具 | 作用 |
 |---|---|---|
@@ -105,7 +126,7 @@ Agent 配置文件登记 11 个核心工具：Prompt 五个、PCAP 四个、知�
 
 工具结果会写入案件任务，证据标记 `real`（真实执行）或 `derived`（统计推导），便于复核每一步来源。
 
-## 快速运行
+## 🚀 快速运行
 
 ### Windows
 
@@ -142,7 +163,7 @@ python src/main.py -m http -p 5000
 
 访问 `http://127.0.0.1:5000/web`。启动脚本不包含真实凭据。
 
-## 常用接口
+## 🔌 常用接口
 
 服务启动后可用 `/health` 检查状态；Web 工作台使用以下接口：
 
@@ -165,7 +186,19 @@ curl -X POST http://127.0.0.1:5000/web/api/prompt/analyze \
 
 返回中可查看 `semantic_status`、`cpd_status`、`marker_hits`、`evidence`、`risk_level`、`action` 和 `decision_trace`。测试或生产环境不要把真实密钥、个人信息或生产 PCAP 写进命令行历史。
 
-## 测试
+## ✅ 测试
+
+### 一眼看懂当前验证
+
+| 验证层 | 当前结果 | 代表什么 |
+|---|---:|---|
+| 三路真实语义 E2E | **9/9** | 规则、Entropy-CPD、语义模型均完成执行 |
+| 攻击样本拦截 | **4/4** | 合成攻击样本均进入高风险拦截 |
+| 良性样本误报 | **0/4** | 当前冒烟集未出现误报 |
+| 边界样本 | **1/1** | 边界样本安全放行，保留观察空间 |
+| 本地扩展评测 | **规则/CPD** | 用于回归与消融，不冒充语义模型准确率 |
+
+> **阅读提示**：上表是小规模线上冒烟结果，不是泛化性能承诺。完整测试口径、样本构成、限制和复现实验命令见下方测试文档。
 
 ### 本地规则与分布信号扩展评测
 
@@ -190,7 +223,7 @@ curl -X POST http://127.0.0.1:5000/web/api/prompt/analyze \
 
 更多测试方法、样本构成和限制见 [`docs/02-测试文档-StreamLens.md`](docs/02-测试文档-StreamLens.md)。
 
-## 目录结构
+## 🗂️ 目录结构
 
 ```text
 src/
@@ -216,7 +249,7 @@ docs/                             比赛设计、测试、总结和部署文档
 dist/StreamLens明鉴_答辩PPT.pptx    答辩 PPT
 ```
 
-## 可信边界
+## 🔐 可信边界
 
 - Entropy-CPD 的理论思想借鉴公开研究；本项目贡献是工程集成、异常起点定位、可视化、证据化和反事实复核；
 - 字符级熵是 token 熵的可部署近似，不能等同于模型内部真实 token 概率；
@@ -224,9 +257,9 @@ dist/StreamLens明鉴_答辩PPT.pptx    答辩 PPT
 - 统计异常不能单独触发高影响处置；封禁、隔离、生产 Prompt 替换等动作必须人工授权；
 - 当前未接入真实防火墙或 EDR 时，不会伪造“已执行”结果。
 
-## 比赛材料
+## 🏆 比赛材料
 
-### 与比赛任务的对应关系
+### 📌 与比赛任务的对应关系
 
 | 比赛任务 | StreamLens 对应实现 |
 |---|---|
@@ -247,6 +280,6 @@ dist/StreamLens明鉴_答辩PPT.pptx    答辩 PPT
 
 本仓库不新增独立的数据集与样本清单。五分钟演示视频和审核通过的官方报名表需要在提交前由参赛团队补入。
 
-## License and attribution
+## 📚 License and attribution
 
 本项目中的第三方依赖遵循各自许可证。公开研究思想、知识材料和外部样本的来源与适用范围以仓库中的知识文档、测试文档及其原始许可为准。参赛提交时请根据赛事要求补充团队署名、许可证和授权证明。

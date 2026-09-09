@@ -27,14 +27,16 @@ if not exist "config\credentials.env" (
   echo [TIP] config\credentials.env not found. Copy credentials.env.example and fill your API key for full LLM features.
 )
 
+set "PYTHON_BIN=python"
+if exist ".venv\Scripts\python.exe" set "PYTHON_BIN=%~dp0.venv\Scripts\python.exe"
 echo [START] Starting server in background window ...
-start "TokenSecurity Server" /min cmd /c "cd src && python main.py -m http -p 5000"
+start "StreamLens Server" /min "%PYTHON_BIN%" "%~dp0src\main.py" -m http -p 5000
 echo [WAIT] Waiting for server ...
 timeout /t 10 /nobreak >nul
 start "" http://127.0.0.1:5000/web
 echo.
 echo ================================================
-echo  Token Security is running at:
+echo  StreamLens 明鉴 is running at:
 echo  http://127.0.0.1:5000/web
 echo  Close the minimized "TokenSecurity Server"
 echo  window to stop. Close this window anytime.

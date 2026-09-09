@@ -56,3 +56,7 @@ __pycache__/
 
 # 真实凭据不入库（用 example 模板）
 config/credentials.env
+
+# Runtime data
+tmp/
+cases/

@@ -646,7 +646,11 @@ async def web_ui_index():
     return _FileResponse(_os.path.join(WEB_DIR, "index.html"), headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
 
 # ---- PCAP 文件上传（对话端检测用） ----
-_PCAP_UPLOAD_DIR = "/tmp/ts_uploads"
+_RUNTIME_DIR = _os.path.abspath(_os.path.join(WEB_DIR, "..", "tmp"))
+_PCAP_UPLOAD_DIR = _os.getenv(
+    "TOKEN_SECURITY_PCAP_UPLOAD_DIR",
+    _os.path.join(_RUNTIME_DIR, "ts_uploads"),
+)
 _os.makedirs(_PCAP_UPLOAD_DIR, exist_ok=True)
 _PCAP_MAX_BYTES = 300 * 1024 * 1024
 

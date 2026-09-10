@@ -74,6 +74,9 @@ class MemoryManager:
             from storage.database.db import get_db_url
             db_url = get_db_url()
             if db_url and db_url.strip():
+                if db_url.strip().lower().startswith("sqlite:"):
+                    logger.info("Local SQLite database detected; using in-process MemorySaver")
+                    return None
                 return db_url
             logger.warning("db_url is empty, will fallback to MemorySaver")
             return None

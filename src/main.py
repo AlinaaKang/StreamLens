@@ -262,10 +262,11 @@ async_graph: Optional[CompiledStateGraph] = None
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     engine = get_engine()
-    @event.listens_for(engine, "connect")
-    def _set_utc(dbapi_conn, _):
-        with dbapi_conn.cursor() as cur:
-            cur.execute("SET TIME ZONE 'UTC'")
+    if engine.dialect.name == "postgresql":
+        @event.listens_for(engine, "connect")
+        def _set_utc(dbapi_conn, _):
+            with dbapi_conn.cursor() as cur:
+                cur.execute("SET TIME ZONE 'UTC'")
     checkpointer = get_memory_saver()
     if graph_helper.is_agent_proj():
         base = graph_helper.get_agent_instance("agents.agent", None)

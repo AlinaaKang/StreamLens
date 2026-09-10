@@ -1,5 +1,6 @@
 import os
 import time
+from pathlib import Path
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import OperationalError
@@ -19,6 +20,16 @@ def get_db_url() -> str:
     url = os.getenv("PGDATABASE_URL") or ""
     if url is not None and url != "":
         return url
+
+    # Local source bundles do not have Coze workload-identity credentials.
+    # Use a file-backed SQLite database so the web app can start and keep
+    # lightweight task state without requiring a hosted PostgreSQL instance.
+    if not os.getenv("COZE_WORKLOAD_IDENTITY_CLIENT_ID"):
+        workspace = Path(os.getenv("COZE_WORKSPACE_PATH") or Path(__file__).resolve().parents[3])
+        db_path = workspace / "cases" / "streamlens.db"
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        return f"sqlite:///{db_path.as_posix()}"
+
     from coze_workload_identity import Client
     try:
         client = Client()

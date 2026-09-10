@@ -11,9 +11,7 @@
 - `05-源代码交付说明-StreamLens.md`
 - 项目根目录源代码
 - `07-部署运行手册-StreamLens.md`
-- `08-答辩PPT提纲-StreamLens.md`
 - `dist/StreamLens明鉴_答辩PPT.pptx`
-- `10-演示脚本与分镜-StreamLens.md`
 
 ## 需要人工补入的材料
 

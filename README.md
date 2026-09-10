@@ -275,8 +275,6 @@ dist/StreamLens明鉴_答辩PPT.pptx    答辩 PPT
 - [`04-合规声明-StreamLens.md`](docs/04-合规声明-StreamLens.md)
 - [`05-源代码交付说明-StreamLens.md`](docs/05-源代码交付说明-StreamLens.md)
 - [`07-部署运行手册-StreamLens.md`](docs/07-部署运行手册-StreamLens.md)
-- [`08-答辩PPT提纲-StreamLens.md`](docs/08-答辩PPT提纲-StreamLens.md)
-- [`10-演示脚本与分镜-StreamLens.md`](docs/10-演示脚本与分镜-StreamLens.md)
 
 本仓库不新增独立的数据集与样本清单。五分钟演示视频和审核通过的官方报名表需要在提交前由参赛团队补入。
 
